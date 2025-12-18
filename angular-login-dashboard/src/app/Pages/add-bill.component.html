@@ -1,0 +1,26 @@
+<!-- src/app/pages/add-bill.component.html -->
+
+<div class="container mt-4">
+  
+  <h2 class="fw-bold mb-4">Create New Bill</h2>
+  <form>
+    <div class="mb-3">
+      <label for="student" class="form-label">Student</label>
+      <input type="text" class="form-control" id="student" [(ngModel)]="selectedStudent" name="student" placeholder="Student Name">
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input type="number" class="form-control" id="price" [(ngModel)]="price" name="price" placeholder="">
+    </div>
+    <div class="mb-3">
+      <label for="month" class="form-label">Month</label>
+      <input type="month" class="form-control" id="month" [(ngModel)]="month" name="month">
+    </div>
+    <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <input type="text" class="form-control" id="status" [(ngModel)]="status" name="status" placeholder="PAID">
+    </div>
+    <button class="btn btn-primary me-2" (click)="submitBill()" type="button">Submit</button>
+    <button class="btn btn-secondary" (click)="backToBills()" type="button">Cancel</button>
+  </form>
+</div>
