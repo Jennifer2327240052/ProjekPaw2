@@ -26,20 +26,26 @@ export class EditBillComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadBill();
+  }
+
+  async loadBill() {
     const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const id = parseInt(idParam, 10);
-      this.bill = this.dataService.getBillById(id);
-      if (this.bill) {
-        this.selectedStudent = this.bill.student;
-        this.price = this.bill.price;
-        this.month = this.bill.month;
-        this.status = this.bill.status;
-      }
+    if (!idParam) return;
+    try {
+      const b = await this.dataService.getBillById(idParam);
+      if (!b) return;
+      this.bill = b;
+      this.selectedStudent = b.student;
+      this.price = b.price;
+      this.month = b.month;
+      this.status = b.status;
+    } catch (err) {
+      console.error('Failed to load bill', err);
     }
   }
 
-  updateBill() {
+  async updateBill() {
     if (!this.bill || !this.selectedStudent || this.price <= 0 || !this.month) {
       alert('Please fill all required fields');
       return;
@@ -53,10 +59,14 @@ export class EditBillComponent implements OnInit {
       status: this.status
     };
 
-    this.dataService.updateBill(updatedBill);
-
-    alert('Bill updated successfully!');
-    this.router.navigate(['/dashboard/bill-list']);
+    try {
+      await this.dataService.updateBill(String(this.bill.id), updatedBill as any);
+      alert('Bill updated successfully!');
+      this.router.navigate(['/dashboard/bill-list']);
+    } catch (err) {
+      console.error('Update bill failed', err);
+      alert('Failed to update bill.');
+    }
   }
 
   backToBills() {

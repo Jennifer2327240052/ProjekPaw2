@@ -57,3 +57,33 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Backend (local development)
+
+This repository includes a simple Express + Mongoose backend in `backend/` used by the frontend during development.
+
+Quick start (from repository root):
+
+```bash
+cd angular-login-dashboard/backend
+npm install
+# Optionally set MONGO_URI to point to your MongoDB (default: mongodb://localhost:27017/angular_dashboard_db)
+# Example (Windows PowerShell):
+# $env:MONGO_URI = 'mongodb://127.0.0.1:27017/angular_dashboard_db'
+
+# Run the API server
+npm run dev
+
+# Seed sample data (will clear and insert sample students/teachers/bills/schedules)
+npm run seed
+```
+
+API base URL: `http://localhost:3000/api`
+
+Endpoints:
+- `GET /api/students` — list students
+- `POST /api/students` — create student
+- `PUT /api/students/:id` — update student
+- `DELETE /api/students/:id` — delete student
+
+Same pattern exists for `/api/teachers`, `/api/bills`, and `/api/schedules`.

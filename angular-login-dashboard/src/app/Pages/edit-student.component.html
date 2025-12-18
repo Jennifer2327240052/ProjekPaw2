@@ -1,0 +1,80 @@
+<!-- src/app/pages/edit-student.component.html -->
+
+<div class="container mt-4">
+  <h2 class="fw-bold">Edit Student</h2>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+  <form #f="ngForm" (ngSubmit)="submit(f)">
+    <div class="mb-2">
+      <label class="form-label">Student Name</label>
+      <input class="form-control" [(ngModel)]="model.name" name="name" required #nameCtrl="ngModel" />
+      <div class="text-danger small" *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Grade</label>
+      <input class="form-control" [(ngModel)]="model.grade" name="grade" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" [(ngModel)]="model.email" name="email" #emailCtrl="ngModel" />
+      <div class="text-danger small" *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
+        Enter a valid email.
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Address</label>
+      <input class="form-control" [(ngModel)]="model.address" name="address" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Phone</label>
+      <input class="form-control" [(ngModel)]="model.phone" name="phone" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Level</label>
+      <input class="form-control" [(ngModel)]="model.level" name="level" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Status</label>
+      <input class="form-control" [(ngModel)]="model.status" name="status" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Date of Birth</label>
+      <input type="date" class="form-control" [(ngModel)]="model.dob" name="dob" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Registration Date</label>
+      <input type="date" class="form-control" [(ngModel)]="model.registrationDate" name="registrationDate" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Type</label>
+      <input class="form-control" [(ngModel)]="model.type" name="type" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">School</label>
+      <input class="form-control" [(ngModel)]="model.school" name="school" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">User</label>
+      <input class="form-control" [(ngModel)]="model.user" name="user" />
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-primary me-2" type="submit" [disabled]="f.invalid">Update</button>
+      <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

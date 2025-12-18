@@ -1,0 +1,44 @@
+<!-- src/app/pages/teacher-list.component.html -->
+
+<div class="container mt-4">
+  <h2 class="fw-bold">Teacher List</h2>
+
+  <div class="mb-3 mt-3 d-flex align-items-center gap-2">
+    <input type="text" class="form-control w-50" placeholder="Search by name" [(ngModel)]="searchQuery">
+    <button class="btn btn-primary" (click)="searchTeachers()">Search</button>
+  </div>
+
+  <div class="mb-3">
+    <button class="btn btn-primary" (click)="addNewTeacher()">Add New Teacher</button>
+  </div>
+
+  <table class="table table-bordered bg-white">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Date of Birth</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Subject</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of teachers">
+        <td>{{ t.id }}</td>
+        <td>{{ t.name }}</td>
+        <td>{{ t.dob || '-' }}</td>
+        <td>{{ t.phone || '-' }}</td>
+        <td>{{ t.email || '-' }}</td>
+        <td>{{ t.address || '-' }}</td>
+        <td>{{ t.subject || '-' }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm me-1" (click)="editTeacher(t.id)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteTeacher(t.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

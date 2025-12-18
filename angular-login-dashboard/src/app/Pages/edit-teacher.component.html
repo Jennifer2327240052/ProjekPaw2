@@ -1,0 +1,70 @@
+<!-- src/app/pages/edit-teacher.component.html -->
+
+<div class="container mt-4">
+  <h2 class="fw-bold">Edit Teacher</h2>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+  <form #f="ngForm" (ngSubmit)="submit(f)">
+    <div class="mb-2">
+      <label class="form-label">Teacher Id</label>
+      <input class="form-control" [(ngModel)]="model.id" name="id" disabled />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Name</label>
+      <input class="form-control" [(ngModel)]="model.name" name="name" required #nameCtrl="ngModel" />
+      <div class="text-danger small" *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Date of Birth</label>
+      <input type="date" class="form-control" [(ngModel)]="model.dob" name="dob" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Phone</label>
+      <input class="form-control" [(ngModel)]="model.phone" name="phone" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" [(ngModel)]="model.email" name="email" #emailCtrl="ngModel" />
+      <div class="text-danger small" *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
+        Enter a valid email.
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Address</label>
+      <input class="form-control" [(ngModel)]="model.address" name="address" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Education</label>
+      <input class="form-control" [(ngModel)]="model.education" name="education" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Position</label>
+      <input class="form-control" [(ngModel)]="model.position" name="position" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Subject</label>
+      <input class="form-control" [(ngModel)]="model.subject" name="subject" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">User</label>
+      <input class="form-control" [(ngModel)]="model.user" name="user" />
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-primary me-2" type="submit" [disabled]="f.invalid">Update</button>
+      <button class="btn btn-secondary" type="button" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

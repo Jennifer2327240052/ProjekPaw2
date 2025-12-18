@@ -24,7 +24,11 @@ export class BillListComponent implements OnInit {
   }
 
   loadBills() {
-    this.allBills = this.dataService.getBills();
+    this.loadAllBills();
+  }
+
+  async loadAllBills() {
+    this.allBills = await this.dataService.getBills();
     this.bills = [...this.allBills];
   }
 
@@ -37,14 +41,14 @@ export class BillListComponent implements OnInit {
     }
   }
 
-  editBill(id: number) {
+  editBill(id: any) {
     this.router.navigate(['/dashboard/edit-bill', id]);
   }
 
-  deleteBill(id: number) {
+  async deleteBill(id: any) {
     if (confirm('Are you sure you want to delete this bill?')) {
-      this.dataService.deleteBill(id);
-      this.loadBills(); // Refresh list
+      await this.dataService.deleteBill(String(id));
+      await this.loadAllBills(); // Refresh list
     }
   }
 

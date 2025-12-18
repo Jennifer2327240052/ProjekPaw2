@@ -1,0 +1,40 @@
+<!-- src/app/pages/student-list.component.html -->
+
+<div class="container mt-4">
+  <h2 class="fw-bold">Student List</h2>
+
+  <div class="mb-3 mt-3 d-flex align-items-center gap-2">
+    <input type="text" class="form-control w-50" placeholder="Search by name" [(ngModel)]="searchQuery">
+    <button class="btn btn-primary" (click)="searchStudents()">Search</button>
+  </div>
+
+  <div class="mb-3">
+    <button class="btn btn-primary" (click)="addNewStudent()">Add New Student</button>
+  </div>
+
+  <table class="table table-bordered bg-white">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Student Name</th>
+        <th>Grade</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of students; let i = index">
+        <td>{{ s.id }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.grade }}</td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.phone || '-' }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm me-1" (click)="editStudent(s.id)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteStudent(s.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

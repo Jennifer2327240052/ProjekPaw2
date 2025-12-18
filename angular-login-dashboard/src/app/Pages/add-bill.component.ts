@@ -20,22 +20,25 @@ export class AddBillComponent {
   students = ['Giselle Naomi Sutanto', 'Mike Celiano Sutanto'];
 
   constructor(private dataService: DataService, private router: Router) {}
-
-  submitBill() {
+  async submitBill() {
     if (!this.selectedStudent || this.price <= 0 || !this.month) {
       alert('Please fill all required fields');
       return;
     }
 
-    this.dataService.addBill({
-      student: this.selectedStudent,
-      price: this.price,
-      month: this.month,
-      status: this.status
-    });
-
-    alert('Bill created successfully!');
-    this.router.navigate(['/dashboard/bill-list']);
+    try {
+      await this.dataService.addBill({
+        student: this.selectedStudent,
+        price: this.price,
+        month: this.month,
+        status: this.status
+      });
+      alert('Bill created successfully!');
+      this.router.navigate(['/dashboard/bill-list']);
+    } catch (err) {
+      console.error('Add bill failed', err);
+      alert('Failed to create bill.');
+    }
   }
 
   backToBills() {

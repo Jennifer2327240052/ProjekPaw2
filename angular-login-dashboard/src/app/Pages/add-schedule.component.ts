@@ -21,22 +21,25 @@ export class AddScheduleComponent {
   students = ['Mike Celiano Sutanto', 'Giselle Naomi Sutanto'];
 
   constructor(private dataService: DataService, private router: Router) {}
-
-  createSchedule() {
+  async createSchedule() {
     if (!this.scheduleDay || !this.scheduleTime || !this.selectedTeacher || !this.selectedStudent) {
       alert('Please fill all fields');
       return;
     }
 
-    this.dataService.addSchedule({
-      day: this.scheduleDay,
-      time: this.scheduleTime,
-      teacher: this.selectedTeacher,
-      student: this.selectedStudent
-    });
-
-    alert('Schedule created successfully!');
-    this.router.navigate(['/dashboard/schedule-list']);
+    try {
+      await this.dataService.addSchedule({
+        day: this.scheduleDay,
+        time: this.scheduleTime,
+        teacher: this.selectedTeacher,
+        student: this.selectedStudent
+      });
+      alert('Schedule created successfully!');
+      this.router.navigate(['/dashboard/schedule-list']);
+    } catch (err) {
+      console.error('Add schedule failed', err);
+      alert('Failed to create schedule.');
+    }
   }
 
   cancel() {

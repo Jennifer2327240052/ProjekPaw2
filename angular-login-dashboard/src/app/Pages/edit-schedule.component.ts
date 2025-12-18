@@ -27,21 +27,27 @@ export class EditScheduleComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  async loadSchedule() {
     const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const id = parseInt(idParam, 10);
-      this.schedule = this.dataService.getScheduleById(id);
-      if (this.schedule) {
-        this.scheduleDay = this.schedule.day;
-        this.scheduleTime = this.schedule.time;
-        this.selectedTeacher = this.schedule.teacher;
-        this.selectedStudent = this.schedule.student;
-      }
+    if (!idParam) return;
+    try {
+      const s = await this.dataService.getScheduleById(idParam);
+      if (!s) return;
+      this.schedule = s;
+      this.scheduleDay = s.day;
+      this.scheduleTime = s.time;
+      this.selectedTeacher = s.teacher;
+      this.selectedStudent = s.student;
+    } catch (err) {
+      console.error('Failed to load schedule', err);
     }
   }
 
-  updateSchedule() {
+  ngOnInit() {
+    this.loadSchedule();
+  }
+
+  async updateSchedule() {
     if (!this.schedule || !this.scheduleDay || !this.scheduleTime || !this.selectedTeacher || !this.selectedStudent) {
       alert('Please fill all fields');
       return;
@@ -55,10 +61,14 @@ export class EditScheduleComponent implements OnInit {
       student: this.selectedStudent
     };
 
-    this.dataService.updateSchedule(updatedSchedule);
-
-    alert('Schedule updated successfully!');
-    this.router.navigate(['/dashboard/schedule-list']);
+    try {
+      await this.dataService.updateSchedule(String(this.schedule.id), updatedSchedule as any);
+      alert('Schedule updated successfully!');
+      this.router.navigate(['/dashboard/schedule-list']);
+    } catch (err) {
+      console.error('Update schedule failed', err);
+      alert('Failed to update schedule.');
+    }
   }
 
   cancel() {
