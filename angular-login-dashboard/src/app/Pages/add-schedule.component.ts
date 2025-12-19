@@ -1,48 +1,55 @@
-// src/app/pages/add-schedule.component.ts
-
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService } from '../Services/data.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { DataService, Teacher, Student } from '../Services/data.service';
 
 @Component({
   standalone: true,
   selector: 'app-add-schedule',
   templateUrl: './add-schedule.component.html',
-  imports: [FormsModule]
+  imports: [FormsModule, CommonModule]
 })
-export class AddScheduleComponent {
+export class AddScheduleComponent implements OnInit {
+
   scheduleDay = '';
   scheduleTime = '';
-  selectedTeacher = '';
-  selectedStudent = '';
 
-  teachers = ['Herna Marlindawati', 'Meiliana Tirtadjaya', 'Umi Muslikhatun'];
-  students = ['Mike Celiano Sutanto', 'Giselle Naomi Sutanto'];
+  selectedTeacher: Teacher | null = null;
+  selectedStudent: Student | null = null;
 
-  constructor(private dataService: DataService, private router: Router) {}
+  teachers: Teacher[] = [];
+  students: Student[] = [];
+
+  constructor(
+    private dataService: DataService,
+    private router: Router
+  ) {}
+
+  async ngOnInit() {
+    this.teachers = await this.dataService.getTeachers();
+    this.students = await this.dataService.getStudents();
+  }
+
   async createSchedule() {
-    if (!this.scheduleDay || !this.scheduleTime || !this.selectedTeacher || !this.selectedStudent) {
+    if (
+      !this.scheduleDay.trim() ||
+      !this.scheduleTime ||
+      !this.selectedTeacher ||
+      !this.selectedStudent
+    ) {
       alert('Please fill all fields');
       return;
     }
 
-    try {
-      await this.dataService.addSchedule({
-        day: this.scheduleDay,
-        time: this.scheduleTime,
-        teacher: this.selectedTeacher,
-        student: this.selectedStudent
-      });
-      alert('Schedule created successfully!');
-      this.router.navigate(['/dashboard/schedule-list']);
-    } catch (err) {
-      console.error('Add schedule failed', err);
-      alert('Failed to create schedule.');
-    }
-  }
+    await this.dataService.addSchedule({
+      day: this.scheduleDay.trim(),
+      time: this.scheduleTime,
+      teacher: this.selectedTeacher.name,
+      student: this.selectedStudent.name
+    });
 
-  cancel() {
+    alert('Schedule created');
     this.router.navigate(['/dashboard/schedule-list']);
   }
 }
